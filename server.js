@@ -11,38 +11,29 @@ app.use(express.static('public'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// GET route for getting notes page and existing notes
+app.get('/', (req, res) => res.sendFile(path.join(__dirname, '/public/')));
+app.get('/notes', (req, res) => res.sendFile(path.join(__dirname, '/public/notes.html')));
+
+// GET route for getting existing notes
 app.get('/api/notes', (req, res) => {
     console.info(`${req.method} request received to get notes`);
-    fs.readFile('db.json', 'utf-8', (err, data) => {
-        if (err) {
-            console.error('Error reading db.json:', err.message);
-            res.status(500).json({ error: 'Error fetching data' });
-        }
-        else {
-            // Send parsed db.json data
-            try {
-                const ;
-            } catch (error) {
 
-            }
-        }
-    });
     return res.status(200).json(notesData);
 });
 
 // POST route for new notes
 app.post('/api/notes', (req, res) => {
     // Log that a POST request was received
-    console.info(`${req.method} request received to add a review`);
+    console.info(`${req.method} request received to add a note`);
 
     // Destructuring new note for the items in req.body
-    const { title, text } = req.body;
+    const { title, text, id } = req.body;
 
     // New note info
     const newNote = {
         title,
-        text
+        text,
+        id
     };
 
     // Import existing notes from db.json
@@ -68,6 +59,8 @@ app.post('/api/notes', (req, res) => {
             res.send('Data saved to db.json');
         }
     });
+
+    return res.status(200).json(existingNotes);
 });
 
 app.listen(PORT, () => {

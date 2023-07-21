@@ -67,9 +67,14 @@ const renderActiveNote = () => {
 };
 
 const handleNoteSave = () => {
+  const idGen = () =>
+    Math.floor((1 + Math.random()) * 0x10000)
+      .toString(16)
+      .substring(1);
   const newNote = {
     title: noteTitle.value,
     text: noteText.value,
+    id: idGen()
   };
   saveNote(newNote).then(() => {
     getAndRenderNotes();
@@ -125,8 +130,8 @@ const renderNoteList = async (notes) => {
 
   let noteListItems = [];
 
-  // Returns HTML element with or without a delete button
-  const createLi = (text, delBtn = true) => {
+  // Returns HTML element with or without a delete button;
+  const createLi = (text, delBtn = false) => {
     const liEl = document.createElement('li');
     liEl.classList.add('list-group-item');
 
