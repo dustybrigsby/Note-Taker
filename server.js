@@ -39,7 +39,7 @@ app.post('/api/notes', (req, res) => {
     // Import existing notes from db.json
     let existingNotes;
     try {
-        const data = fs.readFileSync('./db/db.json');
+        const data = fs.readFileSync('/db/db.json');
         existingNotes = JSON.parse(data);
     }
     catch (err) {
@@ -50,7 +50,7 @@ app.post('/api/notes', (req, res) => {
     existingNotes.push(newNote);
 
     // Save updated existingNotes to db.json
-    fs.writeFile('./db/db.json', JSON.stringify(existingNotes, null, 2), (err) => {
+    fs.writeFile('/db/db.json', JSON.stringify(existingNotes, null, 2), (err) => {
         if (err) {
             console.error('Error writing data to db.json:', err.message);
             res.status(500).send('Error saving to db.json');
